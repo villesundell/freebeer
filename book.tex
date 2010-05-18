@@ -1,0 +1,108 @@
+\documentclass[a4paper,11pt,titlepage]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{url}
+\usepackage[dvips,bookmarks=false]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\usepackage{times}
+\usepackage{courier}
+\usepackage{color}
+\usepackage{xcolor}
+% needed for the copyleft symbol
+%\usepackage{textcomp}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+
+% Disabled so that {\dh} (Icelandic eth) will work
+%\usepackage{ae}                 
+\usepackage{tocloft} % manages the design of ToC, LoF, LoT etc
+\usepackage[avantgarde]{quotchap} % changes style of chapter headings
+
+\usepackage{multirow}
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+
+
+% suppress widows and orphans 
+\widowpenalty=10000 % try eliminate single trailing lines on top of new page
+\clubpenalty=10000 %
+
+% prevents vertical whitespace in pages it cannot sufficiently fill
+\usepackage{setspace}
+\onehalfspacing
+
+% don't use these two unless absolutely necessary, they screw up code-listing
+% (listings package) boxes by pushing the caption into the code box
+%\raggedbottom
+%\usepackage{parskip}
+
+\usepackage{listings} % for code, wrapping across several lines etc
+% add more languages here if needed (Java, Python, whatever)
+% list of supported languages here: http://www.tjansson.dk/?p=419
+\lstloadlanguages{sh, bash}
+
+% something is ``off'' with caption package (or some interaction between it and
+% some other package. The caption box is offset down and right :/
+\usepackage{caption}
+%\DeclareCaptionFont{white}{\color{white}}
+%\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+%\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{
+    \colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{
+        \parbox{\textwidth}{\hspace{24pt}#1#2#3}}}
+\captionsetup[lstlisting]{
+    format=listing,
+    labelfont=white,
+    textfont=white,
+    singlelinecheck=false,
+    margin=0pt,
+    font={bf,footnotesize}
+}
+
+\setcounter{tocdepth}{0}
+
+\begin{document} 
+    \title{\Huge{Free Beer}}
+    \author{\textbf{Written by speakers at FSCONS 2008}\\\\ Edited by Stian Rødven Eide\\ \LaTeX{} by Patrik Willard}
+    \date{\today}
+
+    \definecolor{listinggray}{gray}{0.9}
+
+    \addtolength{\oddsidemargin}{0.85cm}
+    \maketitle
+    \addtolength{\oddsidemargin}{-0.85cm}
+
+    \pagestyle{empty}
+    % without textcomp package we cannot import the licensepage, if we do, it
+    % won't compile
+    \input{licencepage.tex}
+    \tableofcontents
+    \newpage
+
+    \mainmatter
+    \pagestyle{plain}
+    \input{./00_chapters.tex}
+
+    \appendix
+    %\input{appendix/appendix.tex}
+
+    \backmatter
+    
+    \bibliographystyle{unsrt}
+    \bibliography{./bibtex/ref.bib}
+
+    \newpage
+    \mbox{}
+    \thispagestyle{empty}
+
+\end{document}

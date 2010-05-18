@@ -1,0 +1,607 @@
+\begin{savequote}
+    \qauthor{\LARGE{Jeremiah Foster}}
+\end{savequote}
+\chapter{Creating Debian packages from CPAN}
+\label{c:debs_cpan}
+
+CPAN is a well-known and useful archive of Perl modules, a pearl in the Perl
+world. While it serves many Perl developers and users, it cannot by its very
+nature cater for further distribution because it does not know what form that
+distribution has to take. In other words, how is cpan supposed to know if it
+needs to morph into a specif\hbox{}ic format to allow a module to be installed on a
+specif\hbox{}ic platform? It cannot and should not, it should provide instead a stable
+API and a distributed database allowing for easy packaging ``downstream'', which
+is what it does. One can install from source if one prefers, or with the cpan
+and cpanp tools, but sometimes you need or want a more complete and f\hbox{}lexible
+system for installing software.
+
+As we move downstream, we get closer to the user and the user's system. Hic sunt
+dracones, you need to be pretty careful about how and what you install lest you
+create instability and bugs. Cpan tries to handle installation elegantly by
+installing dependencies with whatever module you are installing. This is a
+``Good Thing\texttrademark'', it helps the end-user immeasurably and helps to
+avoid ``dependency hell''; a painful state which describes the situation of
+having some of your needed software installed, but not all of it.
+
+Since a cpan module is agnostic to its f\hbox{}inal destination and tries to be as
+cross-platform as possible, it will not know about the specif\hbox{}ic peculiarities of
+the operating system upon which it is to reside. In fact, one might argue a good
+deal of cpants is directed at this problem, determining the quirks of the OS.
+Workarounds include the inclusion of multiple operating-system-specif\hbox{}ic tools
+and functions, yuck. 
+
+A better solution might be ``package management'' which allows for a cpan module
+to be wrapped in a way that allows for simpler installation. This is of course
+operating system specif\hbox{}ic and rightly so, the OS needs to  determine how to
+install, where to install, and what. So cpan can just do its thing while the OS
+communicates directly with cpan, gets the required module(s), any Perl
+dependencies, and does the installation work. The OS then checks to see if there
+are operating system required dependencies above and beyond the Perl
+dependencies, satisf\hbox{}ies those dependencies, resulting in a single call to the
+package manager to install software without having to search the internet for
+some arbitrary .so f\hbox{}ile.
+
+This article aims to explain this packaging process for Debian and Debian
+derived operating systems such as Ubuntu, allowing for Perl modules to be
+installed as debs and even submitted to Debian itself. The Debian system has
+many users, receives security notif\hbox{}ications, is known for its stability, and
+gets regular updates. These are things your Perl modules will automatically get
+as well when you submit them to Debian.
+
+There is a dedicated group of Debian hackers, both ``Debian Developers'' and
+non-developers, who maintain Perl modules in Debian. I am one of those who works
+on the Debian-Perl team\cite{debs_cpan-debian_perl_team} and would like to
+describe the development of debs from cpan, including some of its gory details,
+so that others can be familiar with ``best practices'' of packaging software for
+Debian. 
+
+Let us begin with a tool called dh-make-perl, shall we? Dh-make-perl (the dh
+stands for Debian helper) is a wrapper around the cpan tool, plus a whole lot
+more. We call it the same way as we would call cpan, with a module name. It then
+goes to cpan for the source of our deb because the goal of a deb is to have the
+source code separate and pristine. Debian makes no changes to the upstream
+source for packaging. Occasionally someone in Debian might patch the source to
+f\hbox{}ix a bug, but in Debian-Perl we try to use patch to patch things and always try
+to pass our patch upstream at least into RT, Perl's bug tracker. 
+
+Choosing something to package is actually quite important. I will choose
+Test::F\hbox{}ile because I f\hbox{}ind it useful and have some familiarity with it - two
+things one needs to generate the interest and motivation when there are bug
+reports or new features. Packaging is actually considerable work over time, a
+stale package is both a potential security risk and quickly forgotten.
+
+Now we use our f\hbox{}irst tool, the powerful dh-make-perl. I will show the call to
+dh-make-perl and then go through it a bit since I am going to pass a lot of
+arguments just to show some features.
+
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    commentstyle=\textit,
+    %numbers=left,
+    %numberstyle=\tiny,
+    %stepnumber=1,
+    %numbersep=5pt,
+    breaklines=true,
+    tabsize=4,
+    keywordstyle=\color{red},
+    frame=single,
+    showspaces=false,
+    showtabs=false,
+    xleftmargin=15pt,
+    framexleftmargin=9pt,
+    framexrightmargin=9pt,
+    %backgroundcolor=\color{lightgray},
+    showstringspaces=false
+}
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:dh-make-perl,caption=dh-make-perl command]{}
+dh-make-perl --cpan Test::File --desc "Test file attributes with perl." --arch all --version 1.25 -e jeremiah@jeremiahfoster.com --dh 7 --requiredeps --build
+\end{lstlisting}
+
+We call dh-make-perl with a bunch of parameters.  This of course is not
+necessary, you can make your call much smaller, but I want to show some of these
+parameters because they make life a little easier and you may want to use them.
+Of course the canonical source of dh-make-perl parameters and functions is in
+the man page for dh-make-perl, this is good to check on occasion since it has
+been getting updated recently\cite{debs_cpan-git_dh_make_perl}.
+
+The f\hbox{}irst parameter, or really argument to dh-make-perl, is the {-}{-}cpan f\hbox{}lag
+which tells dh-make-perl to go and get the module from cpan as opposed to
+f\hbox{}inding it locally. From the man page: ``If neither {-}{-}cpan nor a directory
+is given as argument, dh-make-perl tries to create a Perl package from the data
+in .'' i.e. the current directory.  So if you have a module you want to install
+locally or for some reason do not want to push up to Debian, you can create
+local debs for your own local machines or mirror, no need to push them
+downstream as it were.
+
+Next we give the name of our module in the same way we would if we were using
+cpan, i.e. Foo::Bar. The {-}{-}desc switch tells dh-make-perl what to use for
+Debian's short description and the {-}{-}arch f\hbox{}lag is for the architecture. Here
+we are using all because perl works on all the architectures that Debian
+of\hbox{}f\hbox{}icially (and unof\hbox{}f\hbox{}icially) supports. 
+
+Shockingly enough the {-}{-}version f\hbox{}lag provides a way to inform dh-make-perl
+about the version of the package we are packaging, so this is the  current
+version of Test::F\hbox{}ile; -e is the email address f\hbox{}lag, it wants an email address
+after it; {-}{-}dh is a call to debhelper itself and after {-}{-}dh you have to
+specify the version of debhelper you want to use. This is a little tricky
+because dif\hbox{}ferent versions of debhelper create dif\hbox{}ferent artefacts, specif\hbox{}ically
+dif\hbox{}ferent debian/rules f\hbox{}iles. So you want most likely to use version 7 for
+debhelper. To paraphrase the dh-make-perl man page, {-}{-}dh will set desired
+the debhelper version. If ``ver'' is 7, the generated debian/rules f\hbox{}ile is
+minimalist, using the auto-mode of debhelper. This minimalist version is what
+you want, unless you are going to package an XS module or need to do some crazy
+stuf\hbox{}f at build time.
+
+Fortunately we do not have to mess about with our debian/rules f\hbox{}ile, so I am
+going to continue discussing the rest of the arguments to dh-make-perl, but I
+want to say that there is a great deal to discuss regarding debian/rules and you
+would do well to consider reading about it in the Debian developers'
+documentation in places like the New Maintainer's
+Guide\cite{debs_cpan-new_maint_guide-rules}. If you are reading this in front of
+a Debian command line, you can simply do an ``aptitude install maint-guide'' to
+get the documentation.
+
+The {-}{-}requiredeps f\hbox{}lag tells dh-make-perl to require Perl dependencies, that
+is to say, if we do not f\hbox{}ind all the modules needed to build, we should fail to
+build our deb. This is really good because it makes your deb package more
+portable and all the Perl module dependencies will get installed when you
+install your package on another machine, very convenient. For this call to work
+you need to have apt-f\hbox{}ile installed on the machine on which you are building the
+package. Apt-f\hbox{}ile is an excellent tool, written in Perl (of course!). It allows
+you to search for f\hbox{}iles in Debian packages, even packages that are not installed
+on your system. This means that apt-f\hbox{}ile is really the canonical tool to f\hbox{}ind
+things in Debian or Ubuntu packages. A quick example: say we wanted to install
+libtest-more-perl and we called aptitude to install it thusly, ``aptitude
+install libtest-more-perl''. Aptitude says:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:apt-install,caption=aptitude install libtest-more-perl output]{}
+E: Unable to locate package libtest-more-perl
+\end{lstlisting}
+
+But we are certain that this fundamental perl module is in Debian! Haven't we
+seen Test::More output in fact? Indeed we have, but this module does not exist
+on its own. Debian has included it with the package perl-modules because it is
+such a fundamental tool, and so much else in Debian requires it. So looking for
+it with ``dpkg -L libtest-more-perl'' will produce these rather unhelpful
+results:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:dpkg-search,caption=dpkg -L libtest-more-perl output]{}
+Package ``libtest-more-perl'' is not installed.
+\end{lstlisting}
+
+But in fact, when we search with ``apt-f\hbox{}ile search Test/More.pm'' (which is the
+format we need to specify since we are looking at the f\hbox{}ile system) we will f\hbox{}ind
+that apt-f\hbox{}ile f\hbox{}inds it for us:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:apt-file,caption=apt-file search Test/More.pm output]{}
+perl-modules: /usr/share/perl/5.10.0/Test/More.pm
+\end{lstlisting}
+
+This output tells us that the f\hbox{}ile Test/More.pm is under /usr/share/perl/5.10.0
+and it is in the Debian package perl-modules. This is a handy and reliable way
+to f\hbox{}ind if the Perl module you are looking for is already packaged in Debian.
+All of these commands were issued on a Debian testing system.
+
+F\hbox{}inally we pass {-}{-}build which ``builds only a binary package (by calling
+`fakeroot debian/rules binary') and does not sign the package. It is meant for a
+quick local install of a package, not for creating a package ready for
+submission to the Debian archive.'' So says the man page for dh-make-perl. I
+like to build the package with dh-make-perl because then certain build problems
+come to the fore sooner. It is not a requirement to build the package with
+dh-make-perl however.
+
+Once we have run dh-make-perl, we watch all sorts of interesting output f\hbox{}ly by,
+like output from cpan, the test suite of our module, etc. The debhelper build
+process takes over after cpan has worked its magic and we get a f\hbox{}inished two
+f\hbox{}iles and a directory when we are done. They are:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:dh-make-perl-output,caption=dh-make-perl output]{}
+File: libtest-file-perl_1.25_all.deb
+File: libtest-file-perl_1.25.orig.tar.gz
+Dir: Test-File-1.25
+\end{lstlisting}
+
+
+
+\section{The anatomy of a package}
+\label{s:debs_cpan:anatomy}
+
+You would be tempted to say ``Well I have built my deb, I'm done!'' Doing a dpkg
+{-}{-}contents libtest-f\hbox{}ile-perl\_1.25\_all.deb ought to show this output on our new
+deb:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:dpkg-contents,caption=dpkg {-}{-}contents libtest-file-perl output]{}
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/share/
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/share/man/
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/share/man/man3/
+-rw-r--r-- root/root      4142 2009-02-09 15:39 ./usr/share/man/man3/Test::File.3.gz
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/share/perl5/
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/share/perl5/Test/
+-rw-r--r-- root/root     27027 2008-06-10 19:59 ./usr/share/perl5/Test/File.pm
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/share/doc/
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/share/doc/libtest-file-perl/
+-rw-r--r-- root/root        69 2007-02-09 02:30 ./usr/share/doc/libtest-file-perl/README
+-rw-r--r-- root/root      1476 2009-02-09 15:39 ./usr/share/doc/libtest-file-perl/copyright
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/share/doc/libtest-file-perl/examples/
+-rw-r--r-- root/root        69 2007-02-09 02:30 ./usr/share/doc/libtest-file-perl/examples/README
+-rw-r--r-- root/root       164 2009-02-09 15:39 ./usr/share/doc/libtest-file-perl/changelog.gz
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/lib/
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/lib/perl5/
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/lib/perl5/auto/
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/lib/perl5/auto/Test/
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/lib/perl5/auto/Test/File/
+-rw-r--r-- root/root       195 2009-02-09 15:39 ./usr/lib/perl5/auto/Test/File/.packlist
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/lib/perl/
+drwxr-xr-x root/root         0 2009-02-09 15:39 ./usr/lib/perl/5.10/
+-rw-r--r-- root/root       214 2009-02-09 15:39 ./usr/lib/perl/5.10/perllocal.pod
+\end{lstlisting}
+
+But in fact we are not done, we need to build the deb with dpkg-buildpackage and
+we need to modify some of the f\hbox{}iles in the Debian directory. F\hbox{}irst we will start
+by modifying the f\hbox{}iles in the Debian directory to make sure we have a proper
+package. The f\hbox{}irst thing we need to do is to change the name of our directory.
+Debian has  a requirement that says the package name has to be lowercase which
+means that our directory has to be lower case. So we move Test-F\hbox{}ile to
+libtest-f\hbox{}ile-perl-1.25. This format is the standard format for Debian Perl
+packages. While one might say it is not the most beautiful format, it has its
+strengths. Those strengths are that the format informs the user it is a library
+package, part of a larger system which might require dependencies. It has the
+suf\hbox{}f\hbox{}ix -perl which indicates that it is a Perl library. There are a few modules
+in Debian which are not labelled this way, and there is no absolute law saying
+you have to call your module this way, but if you do not you are in fact doing
+the user a grave disservice, because anyone who is used to Debian or Debian
+derivatives will search for a module as libfoo-bar-perl and they will not f\hbox{}ind
+your module if it is not so labelled. 
+
+So once we have moved Test-F\hbox{}ile-1.25 to libtest-f\hbox{}ile-perl-1.25 we will change
+into that directory and take a look around. We f\hbox{}ind that it is just like the
+untarred module from CPAN only with the addition of a Debian directory. We will
+take a closer look at the Debian directory now which is at the heart of
+packaging. According to the New Maintainer's
+guide\cite{debs_cpan-new_maint_guide} ``The most important of them are
+`control', `changelog', `copyright' and `rules', which are required for all
+packages.'' Let us start by taking a look at the control f\hbox{}ile: 
+
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    commentstyle=\textit,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=5pt,
+    breaklines=true,
+    tabsize=4,
+    keywordstyle=\color{red},
+    frame=single,
+    showspaces=false,
+    showtabs=false,
+    xleftmargin=15pt,
+    framexleftmargin=9pt,
+    framexrightmargin=9pt,
+    %backgroundcolor=\color{lightgray},
+    showstringspaces=false
+}
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:control-file,caption=control]{}
+Source: libtest-file-perl
+Section: perl
+Priority: optional
+Build-Depends: debhelper (>= 7)
+Build-Depends-Indep: perl (>= 5.6.0-12), libtest-manifest-perl (>= 1.14)
+Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
+Uploaders: Jeremiah C. Foster <jeremiah@jeremiahfoster.com>
+Standards-Version: 3.8.0
+Homepage: http://search.cpan.org/dist/Test-File/
+Vcs-Svn: svn://svn.debian.org/pkg-perl/trunk/libtest-file-perl/
+Vcs-Browser: http://svn.debian.org/viewsvn/pkg-perl/trunk/libtest-file-perl/
+
+Package: libtest-file-perl
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends}, libtest-manifest-perl (>= 1.14)
+Description: Test file attributes with Perl.
+ Test::Files provides a collection of test utilities for file attributes.
+ .
+ Some file attributes depend on the owner of the process testing the file in
+ the same way the file test operators do. For instance, root (or super-user or
+ Administrator) may always be able to read files no matter the permissions.
+ .
+ Some attributes don't make sense outside of Unix, either, so some tests
+ automatically skip if they think they won't work on the platform. If you have
+ a way to make these functions work on Windows, for instance, please send me a
+ patch. :)
+ .
+ This description was "automagically" extracted from the module by dh-make-perl.
+\end{lstlisting}
+
+I will move quickly through the f\hbox{}irst lines of the control f\hbox{}ile but I would like
+to point out lines 4 and 5 where Build-Depends and Build-Depends-Indep are
+def\hbox{}ined. This is where the magic at the core of aptitude lies, and why the apt
+system is so powerful. Here we def\hbox{}ine the relationships between packages in the
+operating system and within Perl which will be satisf\hbox{}ied at build time. These
+dependencies were calculated by dh-make-perl but there are other mechanisms to
+do this as well and sometimes we will even need to do this by hand. Looking in
+the source directory for the package and even the META.yml and Makef\hbox{}ile.PL can
+reveal dependencies that might otherwise be missed. Usually dh-make-perl gets it
+right however and this is not necessary.
+
+In our Build-Depends line we are saying we depend on debhelper and we will not
+be able to build our package unless this dependency is satisf\hbox{}ied, it is an
+absolute dependency. The apt system will check automatically for dependencies on
+your dependencies, so you only specify the dependencies you need for your
+package, you do not have to rummage around to f\hbox{}ind out what they depend on.
+Build-Depends is only for dependencies required to build a binary package on
+your architecture, it is not a complete selection of build-time relationships.
+In our package, we also need Build-Depends-Indep which def\hbox{}ines other packages
+that our package will need to run, not just to build. 
+
+This is fairly esoteric stuf\hbox{}f, and Perl largely abstracts the ``building'' of
+binaries away from the Perl programmer in the interest of simplicity and ease of
+use. You can dig into this stuf\hbox{}f if you want, there is much more to learn about
+building Perl both on the Perl side and on the Debian side, but since it is a
+rather large subject area I am going to gloss over the really hairy details and
+refer you to the Debian policy\cite{debs_cpan-debian_policy} and your own Google
+prowess to get more info than that I have presented here.
+
+Most of the other stuf\hbox{}f in the debian/control f\hbox{}ile is pretty self-explanatory;
+resources for the source code, who was responsible for the package uploading,
+etc. I would like to direct you to the last line where we see some packaging
+boilerplate which ought to be removed, i.e. line 28.
+
+If we now turn our attention to debian/copyright we can see the power of Free
+Software and copyright. The Debian Free Software Guidelines require that a
+copyright be assigned so that a licence can be enforced. Perl is under the
+Artistic licence, a licence that has won important legal victories in the United
+States, and also under the GPL. This dual licensing is ef\hbox{}fective but only when
+there is a copyright specif\hbox{}ied and many Perl hackers forget to do this. I would
+like to encourage you to document your copyright, even if you received the
+copyright by default when you authored new code, this makes it easier to package
+your software. Here is what our copyright f\hbox{}ile looks like:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:copyright-file,caption=copyright]{}
+Format-Specification:
+    http://wiki.debian.org/Proposals/CopyrightFormat?action=recall&rev=196
+Upstream-Maintainer: brian d foy <bdfoy@cpan.org>
+Upstream-Source: http://search.cpan.org/dist/Test-File/
+Upstream-Name: Test-File
+Disclaimer: This copyright info was automatically extracted 
+    from the Perl module. It may not be accurate, so you better 
+    check the module sources in order to ensure the module for its 
+    inclusion in Debian or for general legal information. Please, 
+    if licensing information is incorrectly generated, file a bug 
+    on dh-make-perl.
+
+Files: *
+Copyright: brian d foy <bdfoy@cpan.org>
+License-Alias: Perl
+License: Artistic | GPL-1+
+
+Filend: debian/*
+Copyright: 2009, Jeremiah C. Foster <jeremiah@jeremiahfoster.com>
+Licence: Artistic | GPL-1+
+
+Licence: Artistic
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the Artistic Licence, which comes with Perl.
+    On Debian GNU/Linux systems, the complete text of the Artistic Licence
+    can be found in `/usr/share/common-licences/Artistic'
+
+Licence: GPL-1+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public Licence as published by
+    the Free Software Foundation; either version 1, or (at your option)
+    any later version.
+    On Debian GNU/Linux systems, the complete text of the GNU General
+    Public Licence can be found in `/usr/share/common-licences/GPL'
+\end{lstlisting}
+
+This f\hbox{}ile is pretty straight-forward. We will remove the boilerplate from lines
+6 through 11 and then f\hbox{}ill in the exact date of the copyright for the software,
+in this case we'll have to go to cpan and f\hbox{}ind out that it is 2008, but after
+that we are done with the copyright f\hbox{}ile.
+
+The compat and watch f\hbox{}iles play minor roles in our package building drama. The
+watch f\hbox{}ile is a tool to check to see if there have been any new releases, it
+gets used by a tool called uscan which allows one to update a new cpan module
+into an existing Debian package quickly. The compat f\hbox{}ile is merely a
+``compatibility'' number for some of the other Debian tools, I will leave that
+to you to explore. 
+
+
+
+
+\section{Building the package with dpkg-buildpackage}
+\label{s:debs_cpan:building}
+
+Now it is time to look at the main build tool for building Perl debs,
+dpkg-buildpackage. There are plenty of build tools in Debian and there seems to
+be a new one every month. For example there is now one called git-buildpackage
+and for all I know it may be great. I like dpkg-buildpackage so that is what I
+am going to tell you about.
+
+As with every build tool there are ten thousand options, but I am just going to
+describe the juicy parts. I call dpkg-buildpackage like this:
+
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    commentstyle=\textit,
+    numbers=none,
+    %numberstyle=\tiny,
+    %stepnumber=1,
+    %numbersep=5pt,
+    breaklines=true,
+    tabsize=4,
+    keywordstyle=\color{red},
+    frame=single,
+    showspaces=false,
+    showtabs=false,
+    xleftmargin=15pt,
+    framexleftmargin=9pt,
+    framexrightmargin=9pt,
+    %backgroundcolor=\color{lightgray},
+    showstringspaces=false
+}
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:dpkg-buildpackage,caption=dpkg-buildpackage command]{}
+dpkg-buildpackage -rfakeroot -D -kjeremiah@jeremiahfoster.com
+\end{lstlisting}
+
+What we have right after the call is the f\hbox{}lag -r with the word fakeroot right
+after it, that is the command used to gain root. The -D is for checking
+conf\hbox{}licts and dependencies which I highly recommend although you can do it
+without checking dependencies but that would most likely not be portable.
+F\hbox{}inally, -k and my email address is the key I use to sign the package.
+
+This tool is a Perl tool, of course, and if you look at the source you will see
+the name Ian Jackson in the copyright section. Ian Jackson is the guy who
+started Debian, he is in fact the Ian of Debian with his wife Debra being the
+deb part. You can also see that this f\hbox{}ile is not very well documented, no pod
+for example, which is a shame. There are other modules also being pulled into
+this one, modules like dpkg and dpkg::Version which is useful for checking
+version numbers of packages. Why won't you f\hbox{}ind these packages on cpan? Good
+question. It is one of my long term goals to expose all these tools to cpan and
+get the public to examine them and help with development and documentation. The
+developers in Debian seem to think these tools are only relatively interesting
+to a Debian developer, which may be true, but I suspect it is valuable to have
+tools that work on such a fundamental level with Debian packages since Debian is
+so widespread. Then people can either use them themselves or even devise tools
+on top of them that might be useful, like the cpan2dist tool in cpanplus. I can
+also see these tools as potentially being useful for a distribution agnostic
+linux packaging program. In any case, I think Debian should follow the best
+practices of the Perl community either way and make the tools available and I
+intend to do that work if someone does not beat me to it.
+
+In the meantime, what happened when we built our package? Since we passed -D to
+check dependencies, dpkg-buildpackage called dpkg-checkbuilddeps and found that
+we cannot build our package because we are missing a dependency; Test::Manifest.
+You can run dpkg-checkbuilddeps separately and this is the output:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:dpkg-checkbuilddeps,caption=dpkg-checkbuilddeps output]{}
+dpkg-checkbuilddeps: Unmet build dependencies: libtest-manifest-perl (>= 1.14)
+\end{lstlisting}
+
+The above line tells us that the Perl module Test::Manifest needs to be included
+for and that it already exists in Debian as the package libtest-manifest-perl.
+Marvel at the power of the apt system! It saved us a journey to dependency hell.
+We simply install libtest-manifest-perl and try to build again\ldots
+
+This time, success! Dpkg-buildpackage will ask me for my key passphrase, which I
+give it, and it signs the package for me. Now if we look in our dir we have:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:post-dpkg-checkbuilddeps,caption=Directory after successful dpkg-checkbuilddeps run]{}
+libtest-file-perl-1.25  
+libtest-file-perl_1.25-1_all.deb 
+libtest-file-perl_1.25-1.dsc  
+libtest-file-perl_1.25-1_i386.changes  
+libtest-file-perl_1.25-1.tar.gz
+\end{lstlisting}
+
+Hooray! We have our deb, signed and sealed. You can install it now with dpkg -i
+libtest-f\hbox{}ile-perl\_1.25-1\_all.deb but before we pass it out far and wide, let
+us take one f\hbox{}inal step and build it in a ``clean room'' or a minimal Debian
+install. This we can use as a baseline and assume that if it builds and installs
+here it can build and install anywhere. To do this we are going to use pbuilder
+which is a ``personal package builder''. It creates a chroot, downloads a
+minimal Debian install, adds your package and any dependencies and builds a deb
+for you. If that works, you can be reasonably sure it will work out in the
+greater wide world of the Debian installed base.
+
+Here is the call: 
+
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:pbuilder-1,caption=pbuilder command]{}
+sudo pbuilder build libtest-file-perl_1.25-1.dsc
+\end{lstlisting}
+
+I will go through an arbitrary selection of pbuilder's output:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:pbuilder-1,caption=pbuilder output]{}
+I: using fakeroot in build.
+Current time: Wed Feb 11 16:22:37 CET 2009
+pbuilder-time-stamp: 1234365757
+Building the build Environment
+ -> extracting base tarball [/var/cache/pbuilder/base.tgz]
+\end{lstlisting}
+
+The base tarball gets unpackaged to create the build environment (f\hbox{}igure
+\ref{cl:debs_cpan:pbuilder-1}).
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:pbuilder-2,caption=pbuilder process continued]{}
+Get:1 http://ftp.debian.org sid Release.gpg [189B]
+Get:2 http://ftp.debian.org sid Release [80.6kB]
+Get:3 http://ftp.debian.org sid/main Packages/DiffIndex [2038B]
+Get:4 http://ftp.debian.org sid/main 2009-02-10-2012.30.pdiff [5047B]
+\end{lstlisting}
+
+Here (f\hbox{}igure \ref{cl:debs_cpan:pbuilder-2}) pbuilder updates the base Debian
+install with the latest dif\hbox{}fs of packages so your clean room is up-to-date. You
+can update it manually as well and change the distribution you want to use, I
+prefer to use testing but you might want to use stable.
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:pbuilder-3,caption=pbuilder process continued]{}
+Copying source file
+    -> copying [libtest-file-perl_1.25-1.dsc]
+    -> copying [./libtest-file-perl_1.25-1.tar.gz]
+Extracting source
+\end{lstlisting}
+
+pbuilder pulls in our source for the package (f\hbox{}igure
+\ref{cl:debs_cpan:pbuilder-3}).
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:pbuilder-4,caption=dpkg-buildpackage takes over]{}
+dpkg-buildpackage: source package libtest-file-perl
+dpkg-buildpackage: source version 1.25-1
+dpkg-buildpackage: source changed by Jeremiah C. Foster <jeremiah@jeremiahfoster.com>
+dpkg-buildpackage: host architecture i386
+\end{lstlisting}
+
+dpkg-buildpackage takes over and does its stuf\hbox{}f.
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:pbuilder-5,caption=Test failure!]{}
+Test::Manifest::test_harness found [t/load.t t/pod.t t/pod_coverage.t t/normalize.t t/test_files.t t/owner.t t/rt/30346.t]
+t/load............ok                                                         
+t/pod.............skipped
+        all skipped: Test::Pod 1.00 required for testing POD
+\end{lstlisting}
+
+Aha! I missed a useful tool. Since Test::Pod gets called while running tests, I
+should add it to Build-Depends-Indep in the debian/control f\hbox{}ile to get these
+tests to run. Of course it builds without it, but it is better to run all our
+tests as the original developer envisioned. Once I add that module and the
+module Test::Pod::Coverage which is also used in tests to the debian/control
+f\hbox{}ile, all the tests pass and the package gets built. This is a pretty good
+indication that this package will build on someone else's machine.
+
+To conf\hbox{}irm that we are in accordance with policy we ought to run the package
+through lintian, the Debian policy checker. I run it with the -i and -I f\hbox{}lags
+which provides much more verbose output, it has a {-}{-}pedantic switch as well.
+We might run it against our deb like this:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:lintian-command,caption=lintian command]{}
+lintian -i -I libtest-file-perl_1.25-1_all.deb 
+\end{lstlisting}
+
+And get output like this:
+
+\begin{lstlisting}[frame=trbl,label=cl:debs_cpan:lintian-output,caption=lintian output]{}
+E: libtest-file-perl: perl-module-in-core-directory usr/lib/perl/5.10/
+N: 
+N:    Packaged modules must not be installed into the core Perl directories as
+N:    those directories change with each upstream Perl revision. The vendor
+N:    directories are provided for this purpose.
+N:    
+N:    Refer to Debian Perl Policy section 3.1 (Site Directories) for details.
+N:    
+N:    Severity: important, Certainty: certain
+\end{lstlisting}\cite{debs_cpan-debian_perl_policy}
+
+These warnings are good to have, were you to submit your package for inclusion
+in Debian the expectation is that your package is ``lintian clean'' which means
+without warnings from lintian. Now we can submit this to Debian or put it in our
+own personal deb repo with conf\hbox{}idence.
+
+The package goes through some automatic building on a variety of architectures,
+sits in a queue for about ten days, then gets put into the Debian ``testing''
+distro. Anyone who has Debian testing sources in the /etc/apt/sources.list will
+now be able to install it just by calling aptitude. Now your package or software
+is available to millions of users. Congratulations.

@@ -1,0 +1,699 @@
+\begin{savequote}
+    \qauthor{\LARGE{Mike Linksvayer}}
+\end{savequote}
+\chapter{Free Culture in Relation to Software Freedom}
+\label{c:free_culture_software_freedom}
+
+Richard Stallman announced the GNU project (GNU's Not Unix) to create a free
+operating system in 1983, making the free software movement at least 25 years
+old\footnote{See \url{http://ur1.ca/f6pj} for my perspective on the 25th
+anniversary of GNU.}. In a number of ways, free culture is harder to pin down
+than free software. No single event marks the obvious beginning of the free
+culture movement. Candidates might include the launches of the f\hbox{}irst Open
+Content licences (1998\footnote{See ``10 Years of Open Content'' at
+\url{http://ur1.ca/f6pm} by David Wiley, creator of the f\hbox{}irst open
+content licence.}), Wikipedia (2001), and Creative Commons (2002).  One reason
+may be that there is no free culture equivalent of a free operating system - an
+objective that is clearly necessary, and for at least some people,
+suf\hbox{}f\hbox{}icient to fully achieve software freedom.
+
+This chapter compares and contrasts software and culture and the free software
+and free culture movements. The ideas herein formed, with my observations as a
+free software advocate working at Creative Commons for f\hbox{}ive years, then
+took the form of f\hbox{}ive presentations on the topic during 2008\footnote{See
+\url{http://ur1.ca/f6pp}, \url{http://ur1.ca/f6pr}, \url{http://ur1.ca/f6ps},
+\url{http://ur1.ca/f6pv} and \url{http://ur1.ca/f6pw}.}. I gave the second to
+last of those presentations at FSCONS (not coincidentally, a conference
+dedicated to free software \textit{and} free culture), the book version of which
+this chapter is being written for.
+
+I start by examining dif\hbox{}ferences between software and culture \textit{as
+they relate to the need for and ability to collaborate across individual and
+organizational boundaries}, then move on to the implications of those
+dif\hbox{}ferences for free software and free culture. Next I look at the
+history of each movement and indicators of what each has achieved - mostly by
+loosely analogizing free culture indicators to free software, the latter taken
+as a given. F\hbox{}inally, I attempt to draw some lessons, again mostly for
+free culture, and point out some useful ways for the free software and free
+culture movements to collaborate.
+
+In this chapter I take ``cultural works'' to mean ``non-software works of a type
+often restricted by copyright''. Admittedly this is not perfect - software is
+culture (as is everything of human construction in some sense), some
+recognizably ``cultural'' works include software, and many non-software works
+are not usually thought of as ``cultural''.
+
+While plenty may be said about the relative properties of cultural and software
+works usually recognized as such without creating precise def\hbox{}initions for
+each set, it is worth noting that Stallman, at least since 2000, has delineated
+three categories of works - functional (software, recipes, dictionaries,
+textbooks), representative (essays, memoirs, scientif\hbox{}ic papers), and
+aesthetic (music, novels, f\hbox{}ilms)\footnote{See \url{http://ur1.ca/f6px}
+(speech transcription, 2000) and \url{http://ur1.ca/f6py} (interview, 2002).}.
+Although Stallman’s evaluation of the freedoms required for representative works
+has had some unfortunate ef\hbox{}fects\footnote{Verbatim-only permissions for
+GNU essays on which I comment in another GNU 25th anniversary post at
+\url{http://ur1.ca/f6q0} leading directly to an over-complicated Free
+Documentation Licence with non-free options, discussed brief\hbox{}ly on The
+Software Freedom Law Show: Episode 0x16 concerning documentation licensing; see
+\url{http://ur1.ca/f6q1}.}, these categories are very insightful and have some
+correspondence with my claims below that some cultural works more than others
+share similarities with software.
+
+
+\section{Obvious Software, Ubiquitous Culture}
+\label{s:free_culture_software_freedom:obvious_software}
+
+
+\subsection{Reuse}
+\label{ss:free_culture_software_freedom:obvious_software:reuse}
+
+The case for reusing software code is obvious, compelling, and pragmatic. If one
+can use or improve existing code, it often makes sense to do so rather than
+writing new code from scratch. For example, if one needed a HTML renderer, it
+would be very dif\hbox{}f\hbox{}icult to justify starting over rather than using
+Gecko or WebKit, the renderers used most notably by the F\hbox{}irefox and
+Safari web browsers respectively, and also many other projects. On the other
+hand, the case for reusing software code is very narrow. If one is writing a
+device driver, code from an HTML renderer is useless, as is nearly all other
+software code.
+
+Any particular cultural reuse does not seem necessary. If one needs music for a
+f\hbox{}ilm soundtrack, any number of existing pieces might work, and one would
+hardly question a decision to create a new piece just for the f\hbox{}ilm in
+question.  However, no particular cultural reuse is absurd, excepting when
+absurdity is a cultural feature. Cat photos and heavy metal music can make a
+music video. I challenge you to think of \textit{any} combination of artefacts
+that some artist could not incorporate together in a new work.
+
+Software is usually fairly clearly used in some part of a ``stack'' and an
+entire stack forms a self-contained nearly universally multi-purpose whole -
+usually an operating system with applications. Cultural works can of course be
+layered, but don't sort naturally into a ``stack'' - a f\hbox{}ilm may need a
+soundtrack in roughly the same way a song needs a video, while a video player
+needs an audio codec, but not \textit{vice versa}. There is no cultural
+equivalent of a shippable operating system.
+
+
+\subsection{Maintenance}
+\label{ss:free_culture_software_freedom:obvious_software:maintenance}
+
+Maintenance of software is almost necessary. Unmaintained software eventually is
+surpassed in features, becomes incompatible with new formats, has security holes
+discovered, is not included in current distributions, is only runnable on
+emulators, and if it is still useful, may be rewritten by a new generation of
+programmers who can't understand or even can't f\hbox{}ind the code.
+Non-maintained software is dead, or at least moribund.
+
+A ``maintained'' cultural work is pretty special. Most are consumed verbatim,
+unchanged from the artefact originally published, \textit{modulo} technical
+medium shifts. This may be a primarily 20th century phenomenon - beginning
+earlier for text, which could be mechanically reproduced on an industrial scale
+earlier.  Arguably culture before mass reproduction required maintenance of a
+sort to survive just as much as software does - manual copying since the dawn of
+writing and repeated performance before that. It is possible to imagine a future
+in which a lack of truly mass media and tremendously powerful and accessible
+modif\hbox{}ication tools mean that in order to survive, a cultural work must be
+continually modif\hbox{}ied to remain relevant. However, it is clear that at
+least now and in the recent past, an old verbatim cultural work is at least
+potentially useful, while old verbatim software work seldom is useful.
+
+
+\subsection{Modifiable Form and Construction}
+\label{ss:free_culture_software_freedom:obvious_software:modifiable_form}
+
+Software's modif\hbox{}iable form is roughly all or nothing - you have the
+source code or not. Some reverse engineering and decompilation is possible, but
+clearly source code is hugely more useful than binaries for modifying -
+including maintaining - software.
+
+The modif\hbox{}iable forms of cultural works are varied and degradable. For
+example, text with mark-up is more useful than a PDF, which is more useful than
+a bitmap scan. Audio multi-tracks are better than a lossless mixdown, which is
+better than a high bitrate mixdown, which is better than a low bitrate mixdown,
+which is better than a cassette recording of an AM radio broadcast during a
+storm. At the extremes, the most preferred form is much better than the most
+degraded, but the degradation is fairly steady and all forms have potential for
+cultural reuse.
+
+The closest to such steady degradation for software source code might be that
+commented code is better than uncommented code, which is better than obfuscated
+code, which is better than binaries, which are better than obfuscated binaries -
+but most of these forms are fairly unnatural - while it is hard to avoid
+encountering most of the continuum of modif\hbox{}iable form degradation for
+cultural works - except that the most preferred form is often unavailable.
+
+Relatedly, there's a gulf in the construction of software and cultural works.
+Creating software is identical to creating its modif\hbox{}iable form. Creating
+cultural works often involves iteratively leaving materials on the cutting room
+f\hbox{}loor or the digital equivalent.
+
+It makes intuitive sense that that which does not degrade gracefully requires
+maintenance and that which does not degrade gracefully does not require
+maintenance, though it is unclear there is any causality in either direction.
+
+
+\subsection{Distributed Collaboration}
+\label{ss:free_culture_software_freedom:obvious_software:distributed_collaboration}
+
+The compelling case to reuse specif\hbox{}ic software and the need to maintain
+software means that individuals and organizations with similar needs are likely
+to benef\hbox{}it from using the same software - and for some of them to work
+together (closely or loosely) to maintain and improve the software.
+
+Given lack of a compelling case for reusing specif\hbox{}ic cultural works and
+the lack of need to maintain cultural works means the need to collaborate across
+entity boundaries around \textit{a specif\hbox{}ic work} is much lower - though
+there remains a strong desire to collaborate across entities around any number
+of cultural works, and once a project that cannot be completed by a single
+entity is under way or a work gains cultural signif\hbox{}icance, there can be a
+very strong need or desire for distributed collaboration around that
+specif\hbox{}ic project or work.
+
+
+\subsection{Wikis}
+\label{ss:free_culture_software_freedom:obvious_software:wikis}
+
+Note that typical Wikis are somewhat like software in many of these respects.
+They require maintenance so as not to become stale and overrun with spam. Reuse
+may be more pragmatic and modif\hbox{}iable form more singular than most
+cultural works. Wikipedia is much more like a self-contained nearly universally
+multi-purpose whole than most cultural works.
+
+
+\section{Freedom}
+\label{s:free_culture_software_freedom:freedom}
+
+What do these dif\hbox{}ferences in reuse, maintenance, and modif\hbox{}iable
+form mean for free software and free culture, in particular the latter relative
+to the former?  Much has been written about software freedom, and there is wide
+agreement about what it entails. Distillations such as the Debian Free Software
+Guidelines\footnote{\url{http://ur1.ca/f6q2}}, the Open Source
+Def\hbox{}inition\footnote{\url{http://ur1.ca/f6q4}}, and the Free Software
+Def\hbox{}inition\footnote{\url{http://ur1.ca/f6q5}} almost completely agree
+with each other about which software is free (or open) and which is
+not\footnote{See \url{http://ur1.ca/f6q6} for a rare exception.}.
+
+Why software freedom? The Free Software Def\hbox{}inition's four freedoms state
+(somewhat redundantly) things we want to be able to do with software - use, read
+and adapt, share, and improve and share improvements. More abstractly, free
+software grants users some autonomy (and the ability to get more), promotes a
+sharing ethic, facilitates collaboration, unlocks value, reduces transaction
+costs, makes distributed maintenance tenable, and arguably is congruent with and
+facilitation of broader social goals such as access, participation, democracy,
+innovation, security, and freedom\footnote{F\hbox{}ind a broad discussion of how
+free software and similar phenomena further these liberal goals in The Wealth of
+Networks by Yochai Benkler, available from \url{http://ur1.ca/f6q7}. I
+highlighted the positive impact of free software and free culture on freedom and
+security in particular in another FSCONS 2008 presentation, see
+\url{http://ur1.ca/f6q8}.}.
+
+
+\subsection{Software Services and Fee Software and Free Culture}
+\label{ss:free_culture_software_freedom:freedom:software_services}
+
+Software services delivered over a network have reignited the debate over what
+constitutes necessary software freedom. No doubt the rise of software services
+has aided and been helped by free software - the applications themselves are
+often not free software, but are usually built of and on top of many layers of
+free software, while the move of the most important applications to the web
+means that free software users only really need a web browser to be on a par
+with non-free users (there are important caveats, in particular the dominance of
+patent-encumbered media codecs, but the web is fairly clearly an equalizer).
+However, some see software services as a gigantic threat to software freedom.
+Not only is the source to most popular applications unavailable and not freely
+licensed, operations of software services are completely opaque, they have your
+data, and could shut down or deny you access at any time!
+
+Among the vanguard that sees a problem in software services and an answer in
+more software freedom, there is broad agreement in outline, e.g., the Franklin
+Street Statement\footnote{\url{http://ur1.ca/f6qa}; see \url{http://ur1.ca/f6qe}
+for my perspective.} and Open Software Services
+Def\hbox{}inition\footnote{\url{http://ur1.ca/f6qi}} probably would agree most
+of the time on which services are free, but many details and a huge amount of
+practise remains to be worked out\footnote{See \url{http://ur1.ca/f6qj} for
+ongoing discussion of ``free network services.''}.
+
+The Franklin Street Statement and Open Software Services Def\hbox{}inition each
+recognize the need for content freedom. Private content makes things
+interesting, but both broadly agree on what constitutes free cultural works.
+Indeed, both build on def\hbox{}initions of freedom (or openness) for
+non-software works that plainly map software freedom to cultural works, the
+Def\hbox{}inition of Free Cultural Works\footnote{\url{http://ur1.ca/f6qm}} and
+the Open Knowledge Def\hbox{}inition\footnote{\url{http://ur1.ca/f6qo}}
+respectively.
+
+
+\subsection{Definitions of Freedom for Culture}
+\label{ss:free_culture_software_freedom:freedom:def_freedom_culture}
+
+These def\hbox{}initions have gained considerable traction - the former is used
+as Wikipedia's def\hbox{}inition of acceptable content licensing and is
+recognized (reciprocally) with an ``Approved for Free Cultural Works'' seal on
+qualifying Creative Commons instruments (public domain, Attribution,
+Attribution-ShareAlike)\footnote{\url{http://ur1.ca/f6qp}}. In debates about
+free culture licensing, it is regularly assumed and asserted that licences that
+do not meet the translated standards of free software are non-free.
+
+However, there is some explicit disagreement about whether freedom can be
+def\hbox{}ined singularly across all cultural works or that non-software
+communities have not arrived at their own def\hbox{}initions (Lawrence
+Lessig\footnote{Discussed at \url{http://ur1.ca/f6qq}; also see Lessig
+presentation at 23C3 available at \url{http://ur1.ca/f6qr} starting at 41
+minutes.}) or that many cultural works require less freedom
+(Stallman\footnote{Ibid. 4.}), to say nothing of graduated and multiple
+def\hbox{}initions in related movements such as those for Open
+Access\footnote{See \url{http://ur1.ca/f6qu} for an overview that unfortunately
+uses ``libre'' to indicate that at least some permission barriers have been
+removed, a much looser indicator than the standard of Free, Libre, and Open
+Source Software, which requires that all permission barriers be removed, with
+exceptions only for notice, attribution, and copyleft.} and Open Educational
+Resources\footnote{See \url{http://ur1.ca/f6qv} for one conversation
+demonstrating lack of consensus on freedoms required for Open Educational
+Resources.}. More importantly, approximately two thirds of cultural works
+released under public copyright licences use such licences that do not qualify
+as free as in (software) freedom - those including prohibitions of derivative
+works and commercial use\footnote{\url{http://ur1.ca/f6re}}.
+
+Does culture need freedom? As in free software? I take this as a given until
+proven otherwise, but the case for has not been adequately captured. The
+Def\hbox{}inition of Free Cultural Works says ``The easier it is to re-use and
+derive works, the richer our cultures become. \ldots These freedoms should be
+available to anyone, anywhere, any time. They should not be restricted by the
+context in which the work is used. Creativity is the act of using an existing
+resource in a way that had not been envisioned before.''\footnote{Ibid. 14.} So
+free as in software freedom culture is asserted to result in richer cultures.
+
+The Def\hbox{}inition of Free Cultural Works maps the Free Software
+Def\hbox{}inition's four freedoms for works of authorship to (1) the freedom to
+use the work and enjoy the benef\hbox{}its of using it, (2) the freedom to study
+the work and to apply knowledge acquired from it, (3) the freedom to make and
+redistribute copies, in whole or in part, of the information or expression, and
+(4) the freedom to make changes and improvements, and to distribute derivative
+works\footnote{Ibid. 14.}.
+
+It is easy to argue that free culture of\hbox{}fers many of the benef\hbox{}its
+free software does, as enumerated above: grants users some autonomy (and the
+ability to get more), promotes a sharing ethic, facilitates collaboration,
+unlocks value, reduces transaction costs, makes distributed maintenance tenable,
+and arguably is congruent with and facilitating of broader social goals such as
+access, participation, democracy, innovation, security, and freedom. And could
+lead to richer cultures.
+
+
+\subsection{Why Semi-Free Culture?}
+\label{ss:free_culture_software_freedom:freedom:semi-free}
+
+So why the semi-freedom (relative to free as in software freedom) granted by
+cultural licences that include terms prohibiting derivative works or commercial
+use? Are such terms helpful or harmful to the free culture movement? I don't
+know of any empirical work on why people use semi-free licences, but anecdotally
+reasons include not wanting others to change the meaning of a work (derivatives
+prohibition) and having a business model that depends on restricting commercial
+uses or having feelings that are sensitive to anyone prof\hbox{}iting without
+you being part of the deal (commercial use prohibition).
+
+Prohibition of derivative works seems particularly misguided and
+non-benef\hbox{}icial.  Misguided because free licences do have limited
+mechanisms to restrict disagreeable uses - the licensee distributing a
+derivative work must describe changes made and must not imply endorsement of the
+licensor, while the licensor can mandate that credit be removed so they are not
+associated with the derivative and (unfortunately) retains ``moral rights''
+against derogatory uses (these vary in strength around the world). Furthermore,
+given the diminution of fair use, fair dealing, and other copyright exceptions
+(which tend to be weakest where moral rights are strongest), lack of explicit
+permission to create derivative works is a free speech issue.
+
+Most of the problems with prohibition of commercial use from a free culture
+perspective are comparatively well
+documented\footnote{\url{http://ur1.ca/f6qy}}.
+
+While the problems of semi-free licences should not be underestimated, there are
+some reasons for their existence, some reasons to think they are less
+problematic for culture than they are for software (where they have been roundly
+rejected) and some possibility that their impact is net positive.
+
+Battles over f\hbox{}ile sharing are one reason. These may have reached their
+peak relevance around the time Creative Commons launched in December, 2002
+(since then the web has become the increasingly dominant platform for sharing -
+and for media, period). People were (and are) getting sued simply for making
+verbatim works available via f\hbox{}ile sharing at no charge and many
+innovative P2P startups were shut down. Many in the copyright industries hoped
+that DRM, a threat to computer users, civil liberties, and free software
+specif\hbox{}ically, would render f\hbox{}ile sharing useless. In this
+environment, merely allowing legal sharing of verbatim works would be a
+signif\hbox{}icant statement against shutting down innovation and mandating DRM.
+
+Because reuse of cultural works is non-pragmatic relative to reuse of software
+code, it is possible that a derivatives prohibition on some cultural works is
+less impactful than such a restriction would be on software. Lower requirements
+for maintenance also mean that the importance of allowing derivative works is
+lessened for culture.
+
+Restrictions on f\hbox{}ield of use (namely, commercial use) may also be less
+harmful for culture than they would be for software. Lack of interoperability is
+one of the problems created by non-commercial licensing. However, if prohibiting
+derivative works is less impactful in culture, so too are interoperability
+problems, which are triggered by the inability to use derivatives created from
+works under incompatible licences.
+
+When distributed maintenance is important, non-commercial licensing is unusable
+for business - a commercial anti-commons is created - no commercial use can be
+made as there are too many parties with copyright claims who have not cleared
+commercial use. This is perhaps one explanation of why free software $\cong$
+open source - although the latter is seen by some as business-friendly, to the
+detriment of freedom, businesses require full freedom, at least for software.
+
+Maybe some artists want a commercial anti-commons: nobody can be ``exploited''
+because commercial use is essentially impossible. If most of culture were
+encumbered by impossible to clear prohibitions against commercial use, the
+commercial sector disliked by Adbusters types would be disadvantaged. However, I
+suspect very few licensors of\hbox{}fering works under a non-commercial licence
+have thought so far ahead. Among those who have thought ahead, even those with
+far left sympathies, seem to appreciate forcing commercial interests to
+contribute to free culture \textit{via} copyleft rather than barring their
+participation.
+
+Many licensors do want to exploit commerce under fairly traditional models.
+There is a case to be made that copyleft (e.g., ShareAlike) licences have an
+under-appreciated and under-explored role in business models, but it certainly
+requires less imagination to see how traditional models map onto only permitting
+non-commercial use - the pre-cleared uses are promotional, while the copyright
+holder authorizes sales of copies and commercial licensing in the usual manner.
+While businesses based on selling copies of digital goods are cratering,
+commercial licensing of digital goods (e.g., for use in advertisements) is a
+huge business. I do not know what fraction of this business results in creating
+derivatives of the works licensed, but it is at least possible that a
+signif\hbox{}icant fraction does not, and hence ShareAlike may be a poor
+business model substitute for commercial use prohibition.
+
+By contrast, free commercial use is less impactful on the bulk of the software
+industry, which is mostly about maintenance and custom development. While impact
+on existing business models is not directly part of the calculus of how much
+freedom is necessary, high impact on existing business models may drastically
+limit willingness to use fully free licences. So while for software, semi-free
+licences may compete with free licences (fortunately the latter won), for
+culture semi-free licences may largely be used by licensors who would not have
+of\hbox{}fered a public licence if only fully free licences were available,
+meaning that semi-free licences produce a net gain. It is entirely possible that
+many licensors of\hbox{}fering works under semi-free licences would have used
+free licences if no prominent semi-free licences were available, producing a net
+loss or ambiguous result from semi-free licensing. I hope social scientists
+f\hbox{}ind a means of testing these conjectures with f\hbox{}ield data and lab
+experiments.
+
+Although the direct impact of prominent licence choices on the freedoms
+af\hbox{}forded to cultural works is important, so is the indirect impact on
+norms and movements. One complaint about semi-free licences is that they weaken
+the consensus meaning of free culture - licensors can feel like they're
+participating without of\hbox{}fering full freedom.
+
+There is another, older consensus around ``non-commercial'' that doesn't have
+much if anything directly to do with licences, that we could return to - that
+non-commercial use should not be restricted by copyright, as the default. We are
+a very long way from reaching such a consensus, but it would be a huge
+improvement over the current consensus, that nearly all uses are restricted by
+copyright. ``Huge'' is an understatement.
+
+It is at least possible to imagine widespread adoption of public licences with a
+non-commercial term as being an important component of a shift back to the
+second kind of non-commercial consensus. If non-commercial public licences were
+to have a positive role to play in this story, it seems two things would have to
+be true: (1) many more people use non-commercial public licences than would
+otherwise use public licences if only fully free public licences were available;
+and (2) use of non-commercial public licences sets a norm for the minimum
+freedom a responsible party would of\hbox{}fer rather than all the freedom
+people need.  In other words, the expectation should be that if you don't at
+least promise to not censor non-commercial uses, you're an evil jerk, but if you
+only promise to not censor non-commercial uses, you're merely not an evil jerk.
+
+As someone who strongly prefers fully free licences, I even more strongly prefer
+to see ef\hbox{}fort put into building and promoting free cultural works rather
+than bashing semi-free licences, for roughly three reasons: (1) use of semi-free
+licences could have a positive impact, to the extent they don't crowd out free
+licences (see above); (2) building is so much more interesting and fun than
+advocacy, especially negative advocacy - in the history of free software, the
+people who are remembered are those who built free software, not those who
+sniped at shareware authors (roughly equivalent to semi-free licensors); and (3)
+pure rationalization - as of this writing, I work for an organization that
+of\hbox{}fers both free and semi-free public copyright licences.
+
+It is unsurprising Stallman only supports cultural freedom necessary for free
+software, rather than that which is necessary for building equivalently free
+culture - software freedom is his overriding mission. Although he has not made
+such a claim, and has a coherent explanation for why works of opinion and
+entertainment do not require full freedom\footnote{Ibid. 4.}, there is a case to
+be made that semi-free cultural licences do everything necessary to facilitate
+free software, e.g., allowing format shifting (to non-patent encumbered formats)
+and presenting a counter-argument to mandating DRM.
+
+It should be noted that for some communities free as in free software is not
+free enough, for example the Science Commons Protocol for Implementing Open
+Access Data\footnote{\url{http://ur1.ca/f6r0}} claims that only the public
+domain (or its approximation through waiving all rights that are possible to
+waive) is free enough for scientif\hbox{}ic data.
+
+
+\subsection{Copyleft Scope}
+\label{ss:free_culture_software_freedom:freedom:copyleft}
+
+Copyleft scope or ``strength'' is another theme that cuts across free software
+and free culture, possibly dif\hbox{}ferently. In software, copyleft strength
+ranges from zero (permissive licences) to limited (LGPL) to what most expect
+(GPL) to including triggering by of\hbox{}fering an interface over a network
+(AGPL). It is possible to imagine taking copyleft strength to an absurd limit -
+a licence that only permits licensed code to run in a universe in which all
+software in that universe is under the same licence.
+
+For culture, copyleft strength depends on what constitutes an adaptation that
+triggers copyleft (ShareAlike). For example, version 2.0 of the Creative Commons
+licences explicitly declared that syncing video to audio creates a derivative
+work\footnote{See \url{http://ur1.ca/f6r1} for a post announcing and explaining
+changes in version 2.0 of the Creative Commons licences.}, and thus triggers
+copyleft. There is debate concerning whether ``semantically linked'' images with
+text triggers copyleft\footnote{See part of the debate at
+\url{http://ur1.ca/f6r3}}.
+
+If the goal is to expand free universe, optimal copyleft is where the
+opportunity cost of under-use due to copyleft equals the benef\hbox{}it of
+additional works released under free terms due to copyleft at the margin. Again,
+there is an opportunity for social scientists to address this question, possibly
+with f\hbox{}ield data, certainly with lab experiments.
+
+
+\section{Relative Progress of Free Software and Free Culture}
+\label{s:free_culture_software_freedom:relative_progress}
+
+Given dif\hbox{}ferences between software and culture, one may expect free
+software and free culture to progress dif\hbox{}ferently. One quick and dirty
+means to gauge their relative development is to list the years of milestones in
+each f\hbox{}ield, as I have done in the table below. These are certainly not
+the best milestones for comparison - particular licences are over-emphasized -
+the reader is urged to render this analysis obsolete by publishing better
+analysis.
+
+If crude analogies can be made between free software and free culture project
+timelines, what do they indicate?
+
+Perhaps the earliest massive community software project is Debian, started in
+1993. Wikipedia began 8 years later, in 2001. Wikipedia's success came faster,
+more visibly, and within the context of its f\hbox{}ield, far greater. Wikipedia
+exploded the encyclopaedia category - comparison to previous encyclopaedias is
+fairly ridiculous as Wikipedia is orders of magnitude bigger and excels for many
+uses completely out of scope for an encyclopaedia, perhaps most obviously as a
+database and current events tracker.
+
+Debian is a very successful GNU/Linux distribution and an even more interesting
+community, but has not remotely exploded the GNU/Linux distribution category,
+let alone the computer operating system category. Nor has Ubuntu (2004), a
+commercially supported distribution based on Debian, that has greatly increased
+the market share of Debian-based distributions. In contrast, there has been some
+commercial activity around Wikipedia content, it is uninteresting and
+unimpactful relative to the main project. Wikia, a commercial wiki hosting
+venture using the same MediaWiki software as Wikipedia, but not a substantial
+amount of Wikipedia content, could be very roughly analogized to Ubuntu. Wikia
+is successful, but not relative to Wikipedia.
+\newpage
+
+\begin{table}[h]
+\label{t:free_culture_software_freedom:relative_progress:milestones}
+\begin{tabular}{|p{7cm}|p{7cm}|}
+
+\hline
+\begin{center}\textbf{Free Software}\end{center} & \begin{center}\textbf{Free Culture}\end{center}\\
+\hline
+
+1983: Launch of GNU Project & 1998: Open Content Licence\\
+1989: GPLv1, Cygnus Solutions & 1999: Open Publication Licence\\
+1991: Linux kernel, GPLv2 & 2000: GFDL, Free Art Licence\\
+1993: Debian & 2001: EFF Open Audio Licence, launch of Wikipedia\\
+1996: Apache & Other early 2000s open content licences (some of them Free):
+Design Science Licence, Ethymonics Free Music Public Licence, Open Music
+Green/Yellow/Red/Rainbow Licences, Open Source Music Licence, No Type Licence,
+Public Library of Science Open Access Licence, Electrohippie Collective's
+Ethical Open Documentation Licence.\\
+1998: Mozilla, ``open source'' term coined, IBM embraces Linux, other open source
+software & 2002: OpenCourseWare, Creative Commons version 1.0 licences\\
+1999: Cygnus acquired by Red Hat & 2003: PLoS Biology, Magnatune\\
+2000: .com bubble peaks and pops, includes open source bubble & 2004: CC version 2.0 licences\\
+2002: OpenOf\hbox{}f\hbox{}ice.org 1.0 & 2005: CC version 2.5 licences\\
+2004: F\hbox{}irefox 1.0, Ubuntu & 2007: CC version 3.0 licences\\
+2007: [A]GPLv3 & 2009: Wikipedia migrates to CC BY-SA\\
+????: World Domination & ????: Free Culture\\
+
+\hline
+\end{tabular}
+\caption{Selected free software and free culture milestones.}
+\end{table}
+
+Many of the licences from this period are described at \cite{culture-licenses}.
+
+
+The canonical free software business is Cygnus Solutions (best known for work on
+the GNU Compiler Collection, perhaps the most ``core'' software in the free
+stack), started in 1989 and acquired by Red Hat in 1999. There is no canonical
+free culture business, but Magnatune (a record label) has often been held up as
+a leading example, started 14 years after Cygnus. Cygnus was acquired by Red Hat
+in 1999, while Magnatune's long term impact is unknown. Unlike Cygnus, Magnatune
+uses a semi-free licence (CC BY-NC-SA), so for some it may not even qualify as a
+free culture business.
+
+Wikitravel (collaboratively edited travel guides) is another early free culture
+business - both a business success, having been acquired by Internet
+Brands\footnote{See notice of the acquisition at \url{http://ur1.ca/f6r4} as
+well as my comments at \url{http://ur1.ca/f6r5}. I also highly recommend
+Wikitravel founder Evan Prodromou's advice for businesses involving community
+wikis or other tools with ``WikiNature'' - see \url{http://ur1.ca/f6r6} and my
+commentary at \url{http://ur1.ca/f6r8}.}, and using a fully free licence (CC
+BY-SA).
+
+Like Magnatune and unlike Cygnus, Wikitravel could not be said to be near the
+``core'' of the free stack - probably because there is no such thing for
+culture, excepting fundamentals such as human language and music notation that
+fortunately reside in the public domain.
+
+Another point of comparison is investment and resistance from major
+corporations. In 1998 IBM's beginning of major investments in free software was
+a business adoption landmark. No analogous major investments have been made in
+free culture. Most large computer companies have now made large investments in
+free/open source software. In 1998 Microsoft was a bitter opponent of free
+software - many would say they still are\footnote{See for example
+\url{http://ur1.ca/f6r9}.}. In 2009
+Microsoft's public messages and its activities, including release of some
+software under free licences, is considerably more nuanced than a decade ago. In
+2009, big media still largely has its head buried in the sand - and continues to
+randomly kick and punch its customers from this position. Could Microsoft's
+\textit{animus} towards openness a decade ago, be loosely analogous to big
+media's Neanderthalism today?
+
+
+\subsection{Licence Deproliferation}
+\label{s:free_culture_software_freedom:relative_progress:licence_deproliferation}
+
+One dif\hbox{}ference in the development of free software and free culture not
+fully revealed by the table above (because it only mentions versions of the GPL
+for software licences) is that free culture has not experienced licence
+proliferation as free software has - and has even experienced licence
+deproliferation. In 2003 the author of the Open Content and Open Publication
+licences recommended using a Creative Commons licence instead\footnote{David
+Wiley discusses the history of the Open Content License and Open Publication
+Licence at \url{http://ur1.ca/f6rb}.} and PLoS adopted the Creative Commons
+Attribution licence. In 2004 the EFF's Open Audio Licence 2.0 declared that its
+next version is CC Attribution-ShareAlike 2.0\footnote{See the Open Audio
+License v2 at \url{http://ur1.ca/f6rd}.}. There have been no signif\hbox{}icant
+new free culture licences since 2002. In June, 2009  Wikipedia and other
+Wikimedia Foundation projects migrated from the FDL to CC Attribution-ShareAlike
+3.0 as their main content licence\footnote{For my take on this migration see
+\url{http://ur1.ca/f6rf} and \url{http://ur1.ca/f6rg}.}.
+
+Presumably this dif\hbox{}ference is largely due to both free culture having had
+the benef\hbox{}it of over a decade of free software learning - including
+learning through making many new licences - and that a fairly well-resourced
+organization, Creative Commons, was able to establish its central role as a
+creator of free (and semi-free) culture licences relatively early in the history
+of free culture licences. It should be noted that Creative Commons was able to
+be relatively well-resourced early due to the pre-existing success of free
+software - both because such success made Creative Commons' plan credible and
+directly via donations from a fortune made in free software\footnote{Early
+Creative Commons funding came from a foundation started by Bob Young, the
+founder of Red Hat. See pp. 102-103 of Viral Spiral by David Bollier, available
+at \url{http://ur1.ca/f6ri}.}.
+
+However, some of the dif\hbox{}ference in proliferation may be due to the narrow
+case for reuse of specif\hbox{}ic software and broad case for reuse of
+specif\hbox{}ic culture.  Licence proliferation may actually be less harmful to
+software than culture, since most combinations of software in a way that would
+create a derivative work are absurd, while no such combinations of culture are -
+so most of the time it doesn't matter that any given pair of software packages
+have incompatible free licences. Still, licence incompatibility does especially
+hurt free software when it does happen to be material, and proliferation guarded
+against and compatibility strived for.
+
+
+\section{How Free Can We Be?}
+\label{s:free_culture_software_freedom:how_free}
+
+Generally culture is much more varied than software, and the success of free
+culture projects relative to free software projects may ref\hbox{}lect this. It
+seems that free culture is at least a decade behind free software, with at least
+one major exception - Wikipedia. Notably, Wikipedia to a much greater extent
+than most cultural works has requirements for mass collaboration and maintenance
+similar to those of software. Even more notably, Wikipedia has completely
+transformed a sector in a way that free software has not.
+
+One, perhaps the, key question for free culture advocates is how more cultural
+production can gain WikiNature\footnote{\url{http://ur1.ca/f6rj}} - made through
+wiki-like processes of community creation, or more broadly, peer
+production\footnote{See \url{http://ur1.ca/f6rk} for one discussion of relevant
+terminology.}. To the extent this can be done, free culture may ``win'' faster
+than free software - for consuming free culture does not require installing
+software with dependencies, in many cases replacing an entire operating system,
+and contributing often does not require as specialized skills as contributing to
+free software often does.
+
+A question for those interested specif\hbox{}ically in free software and free
+culture licences is what is the impact of dif\hbox{}ferent licensing approaches
+- in particular semi-free licences, copyleft scope, and incompatibility and
+proliferation. I don't think we have much theory or evidence on these impacts,
+rather we hold to some ``just so'' stories and have religious debates based on
+such stories. If we believe the use of dif\hbox{}ferent licences have
+signif\hbox{}icantly dif\hbox{}ferent impacts and we want free software and free
+culture to succeed, we should really want rigorous analysis of those impacts!
+
+One f\hbox{}inal point of comparison between free software and free culture -
+how free can an individual be? Now it is just possible to run only free software
+on an individual computer, down to the BIOS if one selects their computer very
+carefully. However, visit almost any web site and one is running non-free
+software, to say nothing of more ambient uses - consumer electronics, vehicles,
+electronic transactions, and much more. Similarly one could only have free
+cultural works on a computer\footnote{I don't know anyone who does this
+consciously, which perhaps indicates the hard-core free software movement also
+leads the hard-core free culture movement - there are many people who try very
+hard to only run free software on their computers. For the record on my computer
+I run Ubuntu, which is close to but not 100\% free and my cultural consumption
+consists of a higher proportion of free cultural works than does anyone's I
+know, though nowhere near 100\% - e.g., see \url{http://ur1.ca/f6rl} or
+\url{http://ur1.ca/f6rm} for data on my music consumption.} (not counting
+private data), though visiting almost any web site will result in experiencing
+non-free cultural works, which are also ambient to an even greater extent than
+is non-free software. My point is not to encourage living in a cave, but to
+elucidate further points of comparison between free software and free culture.
+
+One f\hbox{}inal question of broad interest to people interested in free
+software or free culture - how can these movements help each other? What are the
+shared battles and dependencies?\footnote{For example, see
+\url{http://ur1.ca/f6rn}.} Knowledge sharing and dissemination is an obvious
+starting point. To the extent processes or conceptions of freedom are similar,
+learnings and credibility gained from successes (and learnings from failures)
+are transferable.
+
+We should set high goals for free software and free culture. Freedom, yes. We
+should also constantly look for ways freedom can enable ``blowing up'' a
+category, as Wikipedia has done for encyclopaedias. The benef\hbox{}it to
+humanity from more freedom should not just be more freedom (or, per an
+uncharitable rendering of the open source story, only fewer bugs), it should
+include radically cool, disruptive, and participatory tools, projects, and
+works. \textit{King Kong}, sometimes shorthand for expensive Hollywood
+productions that free culture can supposedly never compete with - this is far
+too low a bar!
+
