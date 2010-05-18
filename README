@@ -1,0 +1,19 @@
+The Freebeer book was compiled using the following packages:
+
+texlive-base
+texlive-common
+texlive-extra-utils
+texlive-fonts-extra
+texlive-fonts-recommended
+texlive-generic-extra
+texlive-generic-recommended
+texlive-humanities
+texlive-latex-base
+texlive-latex-extra
+texlive-latex-recommended
+texlive-pictures
+texlive-pstricks
+tex-common
+biblatex
+rubber
+make
